@@ -98,9 +98,9 @@ const CORS_PROXIES = IS_LOCAL ? [
   (url) => `/proxy?url=${encodeURIComponent(url)}`,
   (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
 ] : [
+  (url) => `/api/proxy?url=${encodeURIComponent(url)}`,
   (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
   (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-  (url) => `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(url)}`,
 ];
 
 const CURRENCY_PAIRS = [
@@ -422,7 +422,7 @@ function parseStooqCsv(csv, currency) {
   const cols = lines[1].split(',');
   if (cols.length < 7 || cols[1] === 'B/D' || cols[6] === 'B/D') return null;
   const close = parseFloat(cols[6]);
-  const prev = parseFloat(cols[cols.length - 1]);
+  const prev = parseFloat(cols[3]); // Use Open price as baseline for today's change
   if (Number.isNaN(close) || Number.isNaN(prev) || prev === 0) return null;
   const change = close - prev;
   const changePct = (change / prev) * 100;
@@ -469,7 +469,7 @@ async function fetchAllMarketQuotes(signal) {
 
 async function fetchWeatherData(signal) {
   try {
-    const url = 'https://wttr.in/?format=j1';
+    const url = 'https://wttr.in/Guwahati?format=j1';
     const body = await fetchWithProxies(url, { signal });
     const data = JSON.parse(body);
     const current = data.current_condition?.[0] || {};

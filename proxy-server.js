@@ -71,11 +71,13 @@ function proxyRequest(targetUrl, res, redirectCount = 0) {
     });
   }).on('error', (err) => {
     console.error(`Proxy error for ${targetUrl}:`, err.message);
-    res.writeHead(502, {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-    });
-    res.end(JSON.stringify({ error: err.message }));
+    if (!res.headersSent) {
+      res.writeHead(502, {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      });
+      res.end(JSON.stringify({ error: err.message }));
+    }
   });
 }
 

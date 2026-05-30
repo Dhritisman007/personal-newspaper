@@ -92,9 +92,15 @@ const MARKET_INDICES = [
   { id: 'sp500', label: 'S&P 500', symbol: '^GSPC', stooq: '^spx', currency: 'USD' },
 ];
 
-const CORS_PROXIES = [
+const IS_LOCAL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+const CORS_PROXIES = IS_LOCAL ? [
   (url) => `/proxy?url=${encodeURIComponent(url)}`,
   (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+] : [
+  (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  (url) => `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(url)}`,
 ];
 
 const CURRENCY_PAIRS = [

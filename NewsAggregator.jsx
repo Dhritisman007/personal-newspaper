@@ -18,12 +18,12 @@ const RSS_FEEDS = [
   {
     id: 'the-print',
     name: 'The Print',
-    url: 'https://theprint.in/feed/',
+    url: 'https://news.google.com/rss/search?q=site:theprint.in&hl=en-IN&gl=IN&ceid=IN:en',
   },
   {
     id: 'the-wire',
     name: 'The Wire',
-    url: 'https://thewire.in/feed',
+    url: 'https://news.google.com/rss/search?q=site:thewire.in&hl=en-IN&gl=IN&ceid=IN:en',
   },
   {
     id: 'the-hindu',

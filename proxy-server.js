@@ -35,50 +35,51 @@ function serveStatic(req, res) {
   });
 }
 
-function proxyRequest(targetUrl, res, redirectCount = 0) {
-  if (redirectCount > 5) {
-    res.writeHead(502, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
-    res.end(JSON.stringify({ error: 'Too many redirects' }));
-    return;
+async function proxyRequest(targetUrl, res) {
+  if (!targetUrl) {
+    res.writeHead(400);
+    return res.end('Missing url parameter');
   }
 
-  const client = targetUrl.startsWith('https') ? https : http;
-
-  client.get(targetUrl, {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      'Accept': 'application/rss+xml, application/xml, text/xml, */*',
-    },
-    timeout: 15000,
-  }, (proxyRes) => {
-    // Handle redirects (resolve relative URLs against original)
-    if ([301, 302, 303, 307, 308].includes(proxyRes.statusCode) && proxyRes.headers.location) {
-      const redirectUrl = new URL(proxyRes.headers.location, targetUrl).href;
-      console.log(`  ↳ redirect → ${redirectUrl}`);
-      proxyRequest(redirectUrl, res, redirectCount + 1);
-      return;
-    }
-
-    let body = '';
-    proxyRes.on('data', (chunk) => { body += chunk; });
-    proxyRes.on('end', () => {
-      res.writeHead(200, {
-        'Content-Type': 'text/xml; charset=utf-8',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET',
-      });
-      res.end(body);
+  try {
+    const fetchResponse = await fetch(targetUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Sec-Fetch-Dest': 'document',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-Site': 'none',
+        'Sec-Fetch-User': '?1',
+        'Upgrade-Insecure-Requests': '1'
+      }
     });
-  }).on('error', (err) => {
-    console.error(`Proxy error for ${targetUrl}:`, err.message);
-    if (!res.headersSent) {
-      res.writeHead(502, {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
+
+    const body = await fetchResponse.text();
+    
+    // Explicitly return 403 if Cloudflare blocked it, so the frontend knows it failed
+    if (fetchResponse.status === 403 || body.includes('cf-browser-verification')) {
+      res.writeHead(403, {
+        'Content-Type': 'text/plain',
+        'Access-Control-Allow-Origin': '*'
       });
-      res.end(JSON.stringify({ error: err.message }));
+      return res.end('Blocked by Cloudflare/Bot Protection');
     }
-  });
+
+    res.writeHead(200, {
+      'Content-Type': fetchResponse.headers.get('content-type') || 'text/xml; charset=utf-8',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    });
+    res.end(body);
+  } catch (error) {
+    console.error(`Proxy error for ${targetUrl}:`, error.message);
+    res.writeHead(502, {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    });
+    res.end(JSON.stringify({ error: error.message }));
+  }
 }
 
 const server = http.createServer((req, res) => {

@@ -687,13 +687,13 @@ function TickerBar({ quotes, loading, currencyRates, currencyLoading }) {
         <span className="text-[10px] uppercase tracking-[0.2em] text-neutral-600 font-sans mr-4 shrink-0">
           Markets
         </span>
-        <div className="flex items-center min-w-0">
+        <div className="flex items-center shrink-0">
           {marketItems}
         </div>
         <span className="text-[10px] uppercase tracking-[0.2em] text-neutral-600 font-sans mx-3 shrink-0">
           Forex
         </span>
-        <div className="flex items-center min-w-0">
+        <div className="flex items-center shrink-0">
           {currencyItems}
         </div>
       </div>
@@ -707,7 +707,7 @@ function CommoditiesWidget({ quotes, loading }) {
       <span className="text-[10px] uppercase tracking-[0.2em] text-neutral-500 font-semibold shrink-0">
         Commodities
       </span>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 shrink-0">
         {COMMODITIES.map((idx) => {
           const quote = quotes[idx.id];
           const positive = (quote?.changePct ?? 0) >= 0;

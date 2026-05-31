@@ -92,6 +92,12 @@ const MARKET_INDICES = [
   { id: 'sp500', label: 'S&P 500', symbol: '^GSPC', stooq: '^spx', currency: 'USD' },
 ];
 
+const COMMODITIES = [
+  { id: 'gold', label: 'Gold', symbol: 'GC=F', stooq: 'xauusd', currency: 'USD' },
+  { id: 'silver', label: 'Silver', symbol: 'SI=F', stooq: 'xagusd', currency: 'USD' },
+  { id: 'oil', label: 'Crude Oil', symbol: 'CL=F', stooq: 'cl.f', currency: 'USD' },
+];
+
 const IS_LOCAL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
 const CORS_PROXIES = IS_LOCAL ? [
@@ -458,8 +464,9 @@ async function fetchIndexQuote(index, signal) {
 }
 
 async function fetchAllMarketQuotes(signal) {
+  const allIndices = [...MARKET_INDICES, ...COMMODITIES];
   const entries = await Promise.all(
-    MARKET_INDICES.map(async (index) => {
+    allIndices.map(async (index) => {
       const quote = await fetchIndexQuote(index, signal);
       return [index.id, quote];
     })
@@ -675,7 +682,8 @@ function TickerBar({ quotes, loading, currencyRates, currencyLoading }) {
 
   return (
     <div className="sticky top-0 z-50 bg-neutral-950 border-b border-neutral-800">
-      <div className="flex items-center h-10 px-3 sm:px-4 overflow-x-auto">
+      <div className="flex items-center h-10 px-3 sm:px-4 overflow-x-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <style>{`.hide-scroll::-webkit-scrollbar { display: none; }`}</style>
         <span className="text-[10px] uppercase tracking-[0.2em] text-neutral-600 font-sans mr-4 shrink-0">
           Markets
         </span>
@@ -688,6 +696,42 @@ function TickerBar({ quotes, loading, currencyRates, currencyLoading }) {
         <div className="flex items-center min-w-0">
           {currencyItems}
         </div>
+      </div>
+    </div>
+  );
+}
+
+function CommoditiesWidget({ quotes, loading }) {
+  return (
+    <div className="flex items-center gap-3 bg-neutral-900/30 border border-neutral-800/60 px-3 py-1.5 rounded-sm font-sans text-xs w-full sm:w-auto overflow-x-auto hide-scroll">
+      <span className="text-[10px] uppercase tracking-[0.2em] text-neutral-500 font-semibold shrink-0">
+        Commodities
+      </span>
+      <div className="flex items-center gap-3">
+        {COMMODITIES.map((idx) => {
+          const quote = quotes[idx.id];
+          const positive = (quote?.changePct ?? 0) >= 0;
+          const colorClass = positive ? 'text-emerald-400' : 'text-red-400';
+          return (
+            <span key={idx.id} className="inline-flex items-center gap-1.5 shrink-0">
+              <span className="text-amber-600/80 uppercase tracking-wider">{idx.label}</span>
+              {loading ? (
+                <span className="text-neutral-600 animate-pulse">loading…</span>
+              ) : !quote ? (
+                <span className="text-neutral-600">—</span>
+              ) : (
+                <>
+                  <span className="text-neutral-200 font-medium tabular-nums">
+                    {quote.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
+                  <span className={`tabular-nums ${colorClass}`}>
+                    {quote.changePct >= 0 ? '+' : ''}{Number(quote.changePct).toFixed(2)}%
+                  </span>
+                </>
+              )}
+            </span>
+          );
+        })}
       </div>
     </div>
   );
@@ -1206,16 +1250,19 @@ function ChronicleApp() {
                 the world, in one desk.
               </p>
             </div>
-            <div className="flex items-center gap-3">
-              <WeatherWidget weather={weather} loading={weatherLoading} />
-              <button
-                type="button"
-                onClick={handleRefresh}
-                disabled={refreshing}
-                className="px-4 py-2 text-sm border border-neutral-600 text-neutral-200 hover:bg-neutral-900 disabled:opacity-50 transition-colors font-sans shrink-0"
-              >
-                {refreshing ? 'Refreshing…' : 'Refresh Feed'}
-              </button>
+            <div className="flex flex-col sm:items-end gap-3 w-full sm:w-auto overflow-hidden">
+              <CommoditiesWidget quotes={marketQuotes} loading={marketLoading} />
+              <div className="flex items-center gap-3">
+                <WeatherWidget weather={weather} loading={weatherLoading} />
+                <button
+                  type="button"
+                  onClick={handleRefresh}
+                  disabled={refreshing}
+                  className="px-4 py-2 text-sm border border-neutral-600 text-neutral-200 hover:bg-neutral-900 disabled:opacity-50 transition-colors font-sans shrink-0"
+                >
+                  {refreshing ? 'Refreshing…' : 'Refresh Feed'}
+                </button>
+              </div>
             </div>
           </div>
           <p className="text-[11px] text-neutral-600 font-sans mt-4 tabular-nums">

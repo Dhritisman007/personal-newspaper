@@ -20,7 +20,9 @@ const MIME_TYPES = {
 };
 
 function serveStatic(req, res) {
-  let filePath = path.join(STATIC_DIR, req.url === '/' ? 'index.html' : req.url);
+  const parsedUrl = url.parse(req.url);
+  let pathname = parsedUrl.pathname === '/' ? '/index.html' : parsedUrl.pathname;
+  let filePath = path.join(STATIC_DIR, pathname);
   const ext = path.extname(filePath);
   const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 

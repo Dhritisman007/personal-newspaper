@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "jetro": {
+      "command": "/Users/dhritismansarma/.jetro/runtime/node-darwin-arm64",
+      "args": [
+        "/Users/dhritismansarma/.jetro/mcp-server/index.js"
+      ],
+      "env": {
+        "JET_WORKSPACE": "/Users/dhritismansarma/Desktop/tridip dada",
+        "JET_API_URL": "https://api.jetro.ai",
+        "PATH": "/Users/dhritismansarma/.jetro/runtime:/Users/dhritismansarma/.antigravity-ide/antigravity-ide/bin:/Users/dhritismansarma/.antigravity-ide/antigravity-ide/bin:/Users/dhritismansarma/.antigravity-ide/antigravity-ide/bin:/Users/dhritismansarma/.antigravity-ide/antigravity-ide/bin:/Users/dhritismansarma/.antigravity-ide/antigravity-ide/bin:/Applications/Docker.app/Contents/Resources/bin:/Applications/Docker.app/Contents/Resources/bin:/opt/anaconda3/bin:/opt/anaconda3/condabin:/Users/dhritismansarma/.antigravity/antigravity/bin:/usr/local/opt/tcl-tk/bin:/Library/Frameworks/Python.framework/Versions/3.x/bin:/Library/Frameworks/Python.framework/Versions/3.x/bin:/Library/Frameworks/Python.framework/Versions/3.x/bin:/Users/dhritismansarma/.local/share/solana/install/active_release/bin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/Library/Frameworks/Python.framework/Versions/3.9/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/opt/homebrew/bin:/Users/dhritismansarma/.cargo/bin:/usr/local/mysql/bin"
+      }
+    }
+  }
+}

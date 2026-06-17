@@ -91,7 +91,26 @@ const TOPIC_KEYWORDS = {
   ],
   'FIFA World Cup': [
     'fifa', 'world cup', 'worldcup', 'football', 'soccer', 'messi', 'ronaldo', 'mbappe',
-    'qatar', 'conmebol', 'uefa', 'lionel messi', 'cristiano ronaldo'
+    'qatar', 'conmebol', 'uefa', 'lionel messi', 'cristiano ronaldo', 'world cup 2026', 
+    'world cup 2030', 'fifa world cup qualification', 'qualification cycle', 'qualifying campaign', 
+    'qualifying round', 'qualifying group', 'host bid', 'host selection', 'host cities', 
+    'joint bid', 'tournament expansion', '48 team format', '32 team format', 'group draw', 
+    'draw pots', 'seeded team', 'unseeded team', 'knockout bracket', 'group standings', 
+    'goal difference', 'advancement scenarios', 'qualification scenario', 'automatic qualification', 
+    'playoff berth', 'inter confederation playoff', 'continental playoff', 'elimination scenario', 
+    'third place match', 'opening match', 'opening ceremony', 'closing ceremony', 'world cup trophy', 
+    'golden boot', 'golden ball', 'golden glove', 'young player award', 'fair play award', 
+    'fifa fan festival', 'official match ball', 'official mascot', 'fifa ranking', 'fifa points', 
+    'fifa coefficient', 'ranking based seeding', 'draw procedure', 'tournament regulations', 
+    'disciplinary record', 'fair play points', 'suspension accumulation', 'yellow card accumulation', 
+    'knockout progression', 'group winner', 'group runner up', 'best third placed team', 
+    'qualification path', 'expected goals', 'xg', 'xga', 'non penalty xg', 'possession percentage', 
+    'passing accuracy', 'shot conversion rate', 'goal conversion rate', 'clean sheet percentage', 
+    'group stage performance', 'knockout stage performance', 'tournament win probability', 
+    'title odds', 'advancement probability', 'qualification probability', 'elo rating', 
+    'team strength index', 'host nation', 'qualified nation', 'eliminated nation', 
+    'defending champion', 'reigning champion', 'world cup debutant', 'tournament favorite', 
+    'dark horse', 'title contender', 'qualified team', 'eliminated team'
   ],
 };
 

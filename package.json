@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "mkdir -p dist && cp index.html App.js dist/ 2>/dev/null || true"
+    "build": "mkdir -p public && cp index.html App.js public/ 2>/dev/null || true"
   }
 }

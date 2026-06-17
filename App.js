@@ -91,7 +91,7 @@ const TOPIC_KEYWORDS = {
   ],
   'FIFA World Cup': [
     'fifa', 'world cup', 'worldcup', 'football', 'soccer', 'messi', 'ronaldo', 'mbappe',
-    'stadium', 'qatar', 'north america', 'conmebol', 'uefa', 'goal', 'penalty', 'tournament'
+    'qatar', 'conmebol', 'uefa', 'lionel messi', 'cristiano ronaldo'
   ],
 };
 

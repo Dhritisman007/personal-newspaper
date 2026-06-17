@@ -35,6 +35,11 @@ const RSS_FEEDS = [
     name: 'Assam Tribune',
     url: 'https://assamtribune.com/feed/',
   },
+  {
+    id: 'fifa-world-cup',
+    name: 'FIFA World Cup',
+    url: 'https://news.google.com/rss/search?q=FIFA+World+Cup&hl=en-IN&gl=IN&ceid=IN:en',
+  },
 ];
 
 const TOPICS = [
@@ -44,6 +49,7 @@ const TOPICS = [
   'Financial Markets',
   'Macroeconomics',
   'India Markets',
+  'FIFA World Cup',
   'General News',
 ];
 
@@ -82,6 +88,10 @@ const TOPIC_KEYWORDS = {
     'india market', 'indian market', 'bse', 'nse', 'nifty', 'sensex', 'rupee',
     'rbi', 'sebi', 'indian stocks', 'mumbai', 'dalal street', 'fii flows',
     'dii', 'india gdp', 'indian economy', 'india inflation', 'india growth',
+  ],
+  'FIFA World Cup': [
+    'fifa', 'world cup', 'worldcup', 'football', 'soccer', 'messi', 'ronaldo', 'mbappe',
+    'stadium', 'qatar', 'north america', 'conmebol', 'uefa', 'goal', 'penalty', 'tournament'
   ],
 };
 
@@ -745,6 +755,7 @@ function TopicTag({ topic }) {
     'Financial Markets': 'border-emerald-900/60 text-emerald-200/90',
     Macroeconomics: 'border-cyan-900/60 text-cyan-200/90',
     'India Markets': 'border-orange-900/60 text-orange-200/90',
+    'FIFA World Cup': 'border-pink-900/60 text-pink-200/90',
     'General News': 'border-neutral-700 text-neutral-400',
   };
   return (
